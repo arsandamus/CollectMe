@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/arsandamus/CollectMe#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
+    "install": "^0.13.0",
+    "npm": "^8.5.4"
   }
 }
