@@ -1,16 +1,22 @@
 {
-  "name": "route_fig",
+  "name": "collectme",
   "version": "1.0.0",
-  "description": "",
+  "description": "Gestionnaire de collection",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arsandamus/CollectMe.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arsandamus/CollectMe/issues"
+  },
+  "homepage": "https://github.com/arsandamus/CollectMe#readme",
   "dependencies": {
-    "express": "^4.17.3",
-    "xmlhttprequest": "^1.8.0"
+    "express": "^4.17.3"
   }
 }
