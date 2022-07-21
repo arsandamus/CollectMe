@@ -1,9 +1,9 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
 const express = require('express')
 const mysql = require('mysql');
 const app = express()
 
+app.set('port', parseInt(process.env.PORT, 10));
 
 
 app.use(express.json())
@@ -15,10 +15,92 @@ var con = mysql.createConnection({
     database: "juliette_collectme"
 });
 
+///// Users /////
+// Get All Users
+/*app.get('/allUsers', (req,res) =>{
+    con.connect(function(err) {
+        //if (err) throw err;
+        con.query("SELECT * FROM user", function (err, result) {
+            //if (err) throw err;
+            res.status(200).json(result);
+        });
+    });
+})*/
+app.get('/allUsers', (req, res) =>
+{
+    con.query("SELECT * FROM user", function (err, result) {
+        //if (err) throw err;
+        res.status(200).json(result);
+    });
+});
+
+// Check if count exist
+app.get('/getMail', (req,res) =>{
+    //con.connect(function(err) {
+        //if (err) throw err;
+        const mail = req.headers.mail
+        con.query("SELECT email FROM user WHERE email = ?", [mail], function (err, result) {
+            //if (err) throw err;
+            //res.status(200).json(result);
+            if (result.length > 0) {
+                res.status(201).json({message: 'Utilisateur existant !'})
+            } else {
+                res.status(201).json({message: 'go inscription !'})
+            }
+        });
+    //});
+})
+
+// Check if password exist
+app.get('/getMdp', (req,res) =>{
+    //con.connect(function(err) {
+        //if (err) throw err;
+        const mail = req.headers.mail
+        const mdp = req.headers.mdp
+        con.query("SELECT password FROM user WHERE email = ? AND password = ?", [mail, mdp], function (err, result) {
+            //if (err) throw err;
+            //res.status(200).json(result);
+            if ((result.length > 0)) {
+                res.status(201).json({message: 'Connexion !'})
+            } else {
+                res.status(201).json({message: 'MDP non correspondant !'})
+            }
+        });
+    //});
+})
+
+// Register
+app.post('/createUser', (req,res) =>{
+    //con.connect(function(err) {
+        //if (err) throw err;
+        const mail = req.headers.mail
+        const mdp = req.headers.mdp
+        const pseudo = req.headers.pseudo
+        var sql = "INSERT INTO user(email, password, pseudo) VALUES ('" +mail+ "', '" +mdp+ "', '" +pseudo+ "')"
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            res.status(201).json({ message: 'Utilisateur créé !' })
+        });
+    //});
+})
+
+
 
 ///// Objets /////
 // Get All Objets
 app.get('/allFigurines', (req,res) =>{
+    //con.connect(function(err) {
+        //if (err) throw err;
+        const user = req.headers.user
+        con.query("SELECT * FROM objet", function (err, result) {
+            if (err) throw err;
+            res.status(200).json(result);
+        });
+    //});
+})
+
+// Get All Objets by User
+app.get('/allFigurinesUser', (req,res) =>{
     con.connect(function(err) {
         if (err) throw err;
         const user = req.headers.user
